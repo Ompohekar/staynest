@@ -15,9 +15,8 @@ import {
   ScrollText,
   Users,
 } from 'lucide-react'
-import PGArt from '../components/PGArt'
 import PGCard from '../components/PGCard'
-import { amenityCatalog, getPgById, getRoomTypes, houseRules, pgs } from '../data/siteData'
+import { amenityCatalog, getPgById, getRoomTypes, houseRules, ownerPhoto, pgs } from '../data/siteData'
 import { amenityIcons } from '../lib/icons'
 import { useFavorites } from '../context/FavoritesContext'
 
@@ -56,14 +55,7 @@ const PGDetailsPage = () => {
   const sameCity = others.filter((p) => p.city === pg.city)
   const similar = [...sameCity, ...others.filter((p) => p.city !== pg.city)].slice(0, 3)
 
-  // Four gallery shots built from the PG's own theme so each listing looks distinct.
-  const gallery = [
-    { variant: pg.art.variant, theme: pg.art.theme, seed: 11, label: 'Exterior' },
-    { variant: 'room', theme: pg.art.theme, seed: 23, label: 'Room' },
-    { variant: 'room', theme: [pg.art.theme[1], pg.art.theme[0]], seed: 37, label: 'Common area' },
-    { variant: 'city', theme: pg.art.theme, seed: 41, label: 'Neighbourhood' },
-  ]
-  const current = gallery[activeImage]
+  const current = pg.photos[activeImage]
 
   const handleVisit = (e) => {
     e.preventDefault()
@@ -126,26 +118,29 @@ const PGDetailsPage = () => {
         {/* Gallery */}
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_auto]">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-slate-100 shadow-card sm:aspect-[16/9]">
-            <div key={activeImage} className="animate-fade-up h-full w-full">
-              <PGArt variant={current.variant} theme={current.theme} seed={current.seed} />
-            </div>
+            <img
+              key={current}
+              src={current}
+              alt={`${pg.name} photo ${activeImage + 1} of ${pg.photos.length}`}
+              className="animate-fade-up h-full w-full object-cover"
+            />
             <span className="absolute bottom-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink shadow-sm backdrop-blur">
-              {current.label}
+              {activeImage + 1} / {pg.photos.length}
             </span>
           </div>
-          <div className="grid grid-cols-4 gap-3 lg:grid-cols-1 lg:w-44">
-            {gallery.map((img, i) => (
+          <div className="no-scrollbar flex gap-3 overflow-x-auto lg:w-44 lg:flex-col lg:overflow-y-auto lg:max-h-[16rem]">
+            {pg.photos.map((src, i) => (
               <button
-                key={img.label}
+                key={src}
                 type="button"
                 onClick={() => setActiveImage(i)}
-                aria-label={`Show ${img.label} photo`}
+                aria-label={`Show photo ${i + 1}`}
                 aria-pressed={activeImage === i}
-                className={`relative aspect-[4/3] overflow-hidden rounded-2xl ring-2 transition-all duration-300 ${
+                className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-2xl ring-2 transition-all duration-300 lg:h-24 lg:w-full ${
                   activeImage === i ? 'ring-brand-600' : 'ring-transparent hover:ring-brand-200'
                 }`}
               >
-                <PGArt variant={img.variant} theme={img.theme} seed={img.seed} />
+                <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
@@ -263,11 +258,18 @@ const PGDetailsPage = () => {
                 <Phone size={16} /> Contact Owner
               </button>
               {showContact && (
-                <div className="animate-fade-up rounded-2xl bg-brand-50 p-4 text-sm text-brand-900">
-                  <p className="font-semibold">Property manager for {pg.name}</p>
-                  <p className="mt-1 text-brand-800">
-                    Our team will call you within 30 minutes. You can also reach Om Pohekar at{' '}
-                    <a href="tel:+919225327383" className="font-semibold underline">+91 92253 27383</a>.
+                <div className="animate-fade-up flex flex-col gap-4 rounded-2xl bg-brand-50 p-4 text-sm text-brand-900">
+                  <div className="flex items-center gap-3">
+                    <img src={ownerPhoto} alt="Om Pohekar" className="h-14 w-14 rounded-full object-cover ring-4 ring-white" />
+                    <div>
+                      <p className="font-bold">Om Pohekar</p>
+                      <p className="text-xs text-brand-800">Owner, {pg.name}</p>
+                    </div>
+                  </div>
+                  <p className="text-brand-800">
+                    Our team will call you within 30 minutes. You can also reach Om directly at{' '}
+                    <a href="tel:+919225327383" className="font-semibold underline">+91 92253 27383</a>{' '}
+                    or <a href="mailto:ompohekar123@gmail.com" className="font-semibold underline">ompohekar123@gmail.com</a>.
                   </p>
                 </div>
               )}

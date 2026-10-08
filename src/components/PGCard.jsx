@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { BadgeCheck, Heart, MapPin, Star, Users } from 'lucide-react'
-import PGArt from './PGArt'
 import { amenityCatalog } from '../data/siteData'
 import { amenityIcons } from '../lib/icons'
 import { useFavorites } from '../context/FavoritesContext'
@@ -20,7 +19,7 @@ const PGCard = ({ pg }) => {
       {/* Image */}
       <div className="relative h-52 overflow-hidden bg-slate-100">
         <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105">
-          <PGArt variant={pg.art.variant} theme={pg.art.theme} seed={pg.name.length + 3} />
+          <img src={pg.photos[0]} alt={`${pg.name} building`} loading="lazy" className="h-full w-full object-cover" />
         </div>
 
         <div className="absolute left-4 top-4 flex gap-2">

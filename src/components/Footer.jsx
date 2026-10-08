@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Home as HomeIcon, Mail, Phone, User } from 'lucide-react'
+import { Home as HomeIcon, Mail, Phone } from 'lucide-react'
 import { FacebookIcon, InstagramIcon, LinkedinIcon, XIcon } from './SocialIcons'
-import { locations } from '../data/siteData'
+import { locations, ownerPhoto } from '../data/siteData'
 
 const quickLinks = [
   { label: 'Home', to: '/' },
@@ -86,8 +86,11 @@ const Footer = () => (
         <h4 className="mb-5 text-sm font-bold uppercase tracking-wider text-white">Contact Us</h4>
         <ul className="flex flex-col gap-4 text-sm">
           <li className="flex items-center gap-3">
-            <User size={18} className="shrink-0 text-brand-400" />
-            <span className="font-semibold text-white">Om Pohekar</span>
+            <img src={ownerPhoto} alt="Om Pohekar" className="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-brand-500/40" />
+            <div>
+              <p className="font-semibold text-white">Om Pohekar</p>
+              <p className="text-xs text-slate-500">Owner & Manager</p>
+            </div>
           </li>
           <li className="flex items-center gap-3">
             <Phone size={18} className="shrink-0 text-brand-400" />

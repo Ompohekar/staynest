@@ -54,7 +54,7 @@ export const houseRules = [
   'One month notice period and one month refundable security deposit.',
 ]
 
-export const pgs = [
+const rawPgs = [
   {
     id: 'urbannest-residency',
     name: 'UrbanNest Residency',
@@ -278,6 +278,26 @@ export const pgs = [
       'Marina Breeze is a women-only PG with breezy balconies, ceiling fans and AC rooms, a sunlit dining hall and biometric security on every floor.',
   },
 ]
+
+// Every property shares the same photo set, with an exterior shot first as the cover.
+export const propertyPhotos = [
+  "/photos/photo-04.png",
+  "/photos/photo-11.png",
+  "/photos/photo-01.png",
+  "/photos/photo-02.png",
+  "/photos/photo-03.png",
+  "/photos/photo-05.png",
+  "/photos/photo-06.png",
+  "/photos/photo-07.png",
+  "/photos/photo-08.png",
+  "/photos/photo-09.png",
+  "/photos/photo-10.png",
+  "/photos/photo-12.png",
+]
+
+export const ownerPhoto = "/photos/owner.jpg"
+
+export const pgs = rawPgs.map((pg) => ({ ...pg, photos: propertyPhotos }))
 
 export const getPgById = (id) => pgs.find((pg) => pg.id === id)
 
